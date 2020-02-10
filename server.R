@@ -31,7 +31,7 @@ server <- function(input, output, session) {
       group_by(name) %>% 
       mutate(perc = value / sum(value)) %>% 
       ungroup() %>% 
-      mutate(label = paste0(scales::comma(value), " (", 100 * perc, "%)")) %>% 
+      mutate(label = paste0(scales::comma(value, accuracy = 1), " (", scales::percent(perc, accuracy = 0.1), ")")) %>% 
       mutate(perc = if_else(name == "Certificates", perc, -perc))
   })
   
@@ -40,6 +40,10 @@ server <- function(input, output, session) {
     plot_df() %>% 
       ggplot() +
       geom_col(aes(Type, perc, fill = name)) +
+      geom_text(data = filter(plot_df(), perc < 0),
+                aes(Type, perc, label = label), hjust = "top", nudge_y = -0.01) +
+      geom_text(data = filter(plot_df(), perc >= 0),
+                aes(Type, perc, label = label), hjust = "bottom", nudge_y = 0.01) +
       scale_x_discrete(name = "") +
       scale_y_continuous(name = "% share",
                          limits = c(-1, 1), expand = c(0, 0),
