@@ -1,9 +1,8 @@
 library(shiny)
 library(tidyverse)
 
-df <- read_csv("Qualification landscape all levels all sector subject areas all qualification types.csv")
-cols <- ncol(df)
 
+df <- read_csv("Qualification landscape all levels all sector subject areas all qualification types.csv")
 
 
 server <- function(input, output, session) {

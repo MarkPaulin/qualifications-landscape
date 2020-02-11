@@ -34,7 +34,7 @@ ui <- fluidPage(
                           width = "100%"))
   ),
   fluidRow(
-    plotOutput("plot")
+    plotOutput("plot", width = "100%", height = "590px")
   ),
   br(),
   fluidRow(
